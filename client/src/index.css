@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #6f1d1b;
+  --color-secondary: #bb9457;
+  --color-surface: #432818;
+  --color-panel: #99582a;
+  --color-canvas: #ffe6a7;
+}
+
+body {
+  font-family: "Ubuntu Sans", sans-serif;
+}
