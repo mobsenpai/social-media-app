@@ -27,10 +27,18 @@ export const createPost = (postData) => {
 };
 
 export const likePost = (postId, userId) => {
-  api.put(`/posts/${postId}/like`, { userId });
+  return api.put(`/posts/${postId}/like`, { userId });
   // NOTE: in a post request
   // we can send a body,
   // hence this userId is sent as a body
   // and can be accessed in backend as req.body.ANYTHING
   // but not in case of get request hence we used params to send it as a query string
+};
+
+export const login = (credientials) => {
+  return api.post("/auth/login", credientials);
+};
+
+export const register = (userData) => {
+  return api.post("/auth/register", userData);
 };

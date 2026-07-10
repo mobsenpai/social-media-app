@@ -62,7 +62,10 @@ router.post("/login", async (req, res) => {
     }
 
     // both username and password correct
-    res.status(200).send("User found");
+    const { password, ...other } = user._doc;
+    // so if you send only user has a ._doc which has all the fields in it,
+    // we can just use user.password etc, but sending the full user object has ._doc so we instead destructure only the user._doc and get the password out of it and then send it
+    res.status(200).send(other);
   } catch (err) {
     res.status(400).send(err.message);
   }

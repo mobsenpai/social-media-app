@@ -1,5 +1,5 @@
-import Post from "./Post";
-import Share from "./Share";
+import Post from "../components/Post";
+import Share from "../components/Share";
 import { useEffect, useState } from "react";
 // axios
 import { getTimeline } from "../services/api";
@@ -29,7 +29,7 @@ export default function Feed() {
   }
 
   return (
-    <div className="min-h-full min-w-full p-8 flex flex-col gap-4 bg-canvas">
+    <div className="min-h-full min-w-full p-8 flex flex-col gap-4 bg-canvas overflow-hidden">
       {/* Same reason to use min-h and min-w instead of h- and w- as the sidebar background color problem */}
       <Share />
       {posts.map((post) => {

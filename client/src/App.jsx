@@ -1,4 +1,4 @@
-import Home from "./pages/Home";
+import Feed from "./pages/Feed";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -27,7 +27,7 @@ function App() {
       <Route element={<MainLayout />}>
         <Route
           path="/feed"
-          element={user ? <Home /> : <Navigate to="/login" />}
+          element={user ? <Feed /> : <Navigate to="/login" />}
         />
         {/* Here Naviagte to used instead of Link to because we dont want to render any anchor tag here, we just want user to just redirect to login page */}
         <Route

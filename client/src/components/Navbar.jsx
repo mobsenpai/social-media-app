@@ -4,8 +4,12 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SearchIcon from "@mui/icons-material/Search";
 import SearchBar from "../components/SearchBar";
+import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
+  const { user } = useAuth();
+
   return (
     <div className="shadow-md bg-primary flex justify-between items-center sticky top-0 text-canvas px-4 py-3">
       {/* Navbar left*/}
@@ -17,50 +21,73 @@ export default function Navbar() {
 
         <ul className="flex items-center gap-2">
           <li className="transition duration-300 hover:bg-secondary hover:text-surface px-1 py-1 rounded-md cursor-pointer">
-            Home
+            <Link to="/">Home</Link>
           </li>
 
+          {/* Protect link */}
           <li className="transition duration-300 hover:bg-secondary hover:text-surface px-1 py-1 rounded-md cursor-pointer">
-            Timeline
+            <Link to={user ? "/feed" : "/login"}>Timeline</Link>
           </li>
         </ul>
       </div>
 
       {/* Navbar center */}
-      <div className="hidden md:flex justify-center mx-4">
-        <SearchBar />
-      </div>
+      {/* Search bar only for loggin in users */}
+      {user && (
+        <div className="hidden md:flex justify-center mx-4">
+          <SearchBar />
+        </div>
+      )}
 
       {/* Navbar right */}
       <div className="flex items-center gap-10">
-        <div className="flex items-center gap-5">
-          <div className="cursor-pointer relative hidden md:block hover:text-canvas/50 transition duration-300">
-            <PersonIcon />
-            <span className="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-secondary text-primary flex items-center justify-center text-xs">
-              0
-            </span>
-          </div>
+        {user ? (
+          <>
+            <div className="flex items-center gap-5">
+              <div className="cursor-pointer relative hidden md:block hover:text-canvas/50 transition duration-300">
+                <PersonIcon />
+                <span className="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-secondary text-primary flex items-center justify-center text-xs">
+                  0
+                </span>
+              </div>
 
-          <div className="cursor-pointer relative hidden md:block hover:text-canvas/50 transition duration-300">
-            <ChatBubbleIcon />
-            <span className="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-secondary text-primary flex items-center justify-center text-xs">
-              0
-            </span>
-          </div>
+              <div className="cursor-pointer relative hidden md:block hover:text-canvas/50 transition duration-300">
+                <ChatBubbleIcon />
+                <span className="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-secondary text-primary flex items-center justify-center text-xs">
+                  0
+                </span>
+              </div>
 
-          <div className="cursor-pointer relative hidden md:block hover:text-canvas/50 transition duration-300">
-            <NotificationsIcon />
-            <span className="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-secondary text-primary flex items-center justify-center text-xs">
-              0
-            </span>
-          </div>
-        </div>
+              <div className="cursor-pointer relative hidden md:block hover:text-canvas/50 transition duration-300">
+                <NotificationsIcon />
+                <span className="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-secondary text-primary flex items-center justify-center text-xs">
+                  0
+                </span>
+              </div>
+            </div>
 
-        <img
-          src=""
-          alt="profile image"
-          className="cursor-pointer w-8 h-8 rounded-full object-cover bg-secondary"
-        />
+            <img
+              src=""
+              alt="profile image"
+              className="cursor-pointer w-8 h-8 rounded-full object-cover bg-secondary"
+            />
+          </>
+        ) : (
+          <>
+            <Link
+              to="/login"
+              className="transition duration-300 bg-secondary text-surface hover:bg-secondary/80 px-1 py-1 rounded-md cursor-pointer"
+            >
+              Login
+            </Link>
+            <Link
+              to="/register"
+              className="transition duration-300 bg-secondary text-surface hover:bg-secondary/80 px-1 py-1 rounded-md cursor-pointer"
+            >
+              Register
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );

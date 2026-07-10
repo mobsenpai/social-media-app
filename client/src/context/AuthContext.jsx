@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = (userData) => {
     setUser(userData);
-    localStorage.serItem("user", JSON.stringify(userData));
+    localStorage.setItem("user", JSON.stringify(userData));
   };
 
   const logout = () => {
@@ -29,6 +29,8 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
+// we make it to be something like useState
+// which we can call anywhere and send the values to all components
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
