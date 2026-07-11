@@ -7,6 +7,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { login: authLogin } = useAuth();
   const navigate = useNavigate();
 
@@ -15,16 +16,15 @@ export default function Login() {
     // when pressed submit again after an error,
     // the error should go away while its loading
     setError("");
+    setLoading(true);
     try {
       const response = await login({ email, password });
-      console.log("authLogin called with:", response.data);
       authLogin(response.data);
       navigate("/feed");
     } catch (err) {
       setError(err.message);
-      console.log("Login error:", err);
-      console.log("Error response:", err.response);
-      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,7 +55,7 @@ export default function Login() {
           type="submit"
           className="bg-secondary mt-4 rounded-md hover:bg-secondary/80 p-2 cursor-pointer"
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
 
         <Link

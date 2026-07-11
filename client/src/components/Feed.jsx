@@ -3,18 +3,23 @@ import Share from "../components/Share";
 import { useEffect, useState } from "react";
 // axios
 import { getTimeline } from "../services/api";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const handlePosts = async () => {
     try {
+      setLoading(true); // its already true, but kept here for safety, in future if we make a refresh button...
       const testUserId = "6a46adec4ddc5b19055300ba";
       const response = await getTimeline(testUserId);
       setPosts(response.data);
     } catch (err) {
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -28,10 +33,12 @@ export default function Feed() {
     return <div className="p-4 text-red-500">Error: {error}</div>;
   }
 
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
-    <div className="min-h-full min-w-full p-8 flex flex-col gap-4 bg-canvas overflow-hidden">
-      {/* Same reason to use min-h and min-w instead of h- and w- as the sidebar background color problem */}
-      <Share />
+    <div className="flex flex-col gap-4">
       {posts.map((post) => {
         return <Post key={post._id} post={post} />;
       })}
