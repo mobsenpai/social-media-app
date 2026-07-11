@@ -4,17 +4,18 @@ import { useEffect, useState } from "react";
 // axios
 import { getTimeline } from "../services/api";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { useAuth } from "../context/AuthContext";
 
 export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   const handlePosts = async () => {
     try {
       setLoading(true); // its already true, but kept here for safety, in future if we make a refresh button...
-      const testUserId = "6a46adec4ddc5b19055300ba";
-      const response = await getTimeline(testUserId);
+      const response = await getTimeline(user._id);
       setPosts(response.data);
     } catch (err) {
       setError(err.message);
